@@ -5,7 +5,7 @@ header('Content-type: application/json; charset=UTF-8');
 $json = new Services_JSON();
 $cookieFile = "cookie.txt";
 $URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
-$URL_MOTOR = "https://www.olx.co.id/yogyakarta-kota_g4000072/q-macbook-pro-?sorting=desc-creation";
+$URL_TARGET_CRAWL = "https://www.olx.co.id/yogyakarta-kota_g4000072/q-macbook-pro-?sorting=desc-creation";
 $URL_SCHEMA = "https://www.olx.co.id/item/";
 $EMAIL = "mryoga1995@gmail.com";
 $PASSWORD = "Yoga12345";
@@ -18,7 +18,7 @@ if (!file_exists($cookieFile)) {
 getCURL("https://www.olx.co.id/");
 //login();
 
-crawlMotor();
+crawlListData();
 
 function getCURL($url, $data = null, $header = null)
 {
@@ -73,10 +73,10 @@ function login()
     getCURL($URL_AUTH, json_encode($login_data), $login_authorization);
 }
 
-function crawlMotor()
+function crawlListData()
 {
-    global $URL_MOTOR, $json;
-    $data = getDataJSOLX(getCURL($URL_MOTOR));
+    global $URL_TARGET_CRAWL, $json;
+    $data = getDataJSOLX(getCURL($URL_TARGET_CRAWL));
     $data = $json->decode($data);
     $data = $data->states->items->collections;
     $data = get_object_vars($data);

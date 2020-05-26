@@ -76,7 +76,7 @@ function login()
 function crawlListData()
 {
     global $URL_TARGET_CRAWL, $json;
-    $data = getDataJSOLX(getCURL($URL_TARGET_CRAWL));
+    $data = getDataJson(getCURL($URL_TARGET_CRAWL));
     $data = $json->decode($data);
     $data = $data->states->items->collections;
     $data = get_object_vars($data);
@@ -90,7 +90,7 @@ function crawlDetail($item)
 {
     global $json, $URL_SCHEMA;
     $url = $URL_SCHEMA . $item;
-    $html = getDataJSOLX(getCURL($url));
+    $html = getDataJson(getCURL($url));
     $html = $json->decode($html);
 
     $elements = $html->states->items->elements->{$item};
@@ -112,7 +112,7 @@ function crawlDetail($item)
     print_r($parameters);
 }
 
-function getDataJSOLX($html)
+function getDataJson($html)
 {
     $html = trim(preg_replace('/[\t\n\r\s]+/', ' ', $html));
     $html = explode('<script type="text/javascript">', $html);
@@ -120,11 +120,6 @@ function getDataJSOLX($html)
     $html = explode("; </script>", $html[3]);
     $html = explode('window.__APP =', $html[0]);
     return $html[1];
-}
-
-function urlClean($url)
-{
-    return urldecode(stripslashes($url));
 }
 
 unlink('cookie.txt');

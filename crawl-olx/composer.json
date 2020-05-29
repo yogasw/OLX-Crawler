@@ -1,5 +1,7 @@
 {
     "require": {
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "php-amqplib/php-amqplib": "^v2.8.2-rc3",
+      "ext-json": "*"
     }
 }

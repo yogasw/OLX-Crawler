@@ -1,11 +1,11 @@
 <?php
-require("JSON.php");
+require __DIR__ . "/JSON.php";
+require __DIR__ . "/SpreedSheet.php";
 
-header('Content-type: application/json; charset=UTF-8');
 $json = new Services_JSON();
 $cookieFile = "cookie.txt";
 $URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
-$URL_TARGET_CRAWL = "https://www.olx.co.id/yogyakarta-kota_g4000072/q-macbook-pro-?sorting=desc-creation";
+$URL_TARGET_CRAWL = "https://www.olx.co.id/yogyakarta-di_g2000032/motor_c87/q-beat-street?sorting=desc-creation";
 $URL_SCHEMA = "https://www.olx.co.id/item/";
 $EMAIL = "mryoga1995@gmail.com";
 $PASSWORD = "Yoga12345";
@@ -81,9 +81,15 @@ function crawlListData()
     $data = $data->states->items->collections;
     $data = get_object_vars($data);
     $data = reset($data);
+    $list_data = [];
     foreach ($data as $item) {
-        crawlDetail($item);
+        array_push($list_data, crawlDetail($item));
     }
+    /*for ($i = 0; $i < 1; $i++) {
+        array_push($list_data, crawlDetail($data[$i]));
+    }*/
+    $spreedSheet = new SpreedSheet();
+    $spreedSheet->sendData($list_data);
 }
 
 function crawlDetail($item)
@@ -92,24 +98,62 @@ function crawlDetail($item)
     $url = $URL_SCHEMA . $item;
     $html = getDataJson(getCURL($url));
     $html = $json->decode($html);
-
     $elements = $html->states->items->elements->{$item};
+    $idUser = $elements->user_id;
+
+    //Data User
+    $htmlUser = $html->states->users->elements->{$idUser};
+    $name = $htmlUser->name;
+    $profile = "https://www.olx.co.id/profile/$idUser";
+    $locationUser = $htmlUser->locations[0];
+    $locationUser = "https://maps.google.com/?q=$locationUser->lat,$locationUser->lon";
+    $badges = [];
+    foreach ($htmlUser->badges as $item) {
+        if ($item->status == 1) array_push($badges, $item->name);
+    };
+    $badges = implode(", ", $badges);
+
+    //Data items
     $id = $elements->id;
     $url = $html->props->location->hostname . $html->props->location->pathname;
     $created_at = $elements->created_at;
     $title = $elements->title;
     $description = $elements->description;
     $location = $elements->locations[0];
-    $location = "https://maps.google.com/?q=" . $location->lat . "," . $location->lon;
+    $location = "https://maps.google.com/?q=$location->lat,$location->lon";
     $price = $elements->price->value->display;
-    $image = $elements->images[0]->url;
+    $images = [];
+    for ($i = 0; $i < count($elements->images) && $i < 3; $i++) {
+        array_push($images, $elements->images[$i]->url);
+    }
+    $images = implode(",\n", $images);
+
     $parameters = [];
     foreach ($elements->parameters as $item) {
-        array_push($parameters, $item->key_name . " : " . $item->formatted_value);
+        array_push($parameters, "$item->key_name : $item->formatted_value");
+        if ($item->key_name == "phone") {
+            $phone = explode("+", $item->formatted_value)[1];
+            array_push($parameters, "wa : https://wa.me/$phone");
+        }
     };
-    $parameters = implode(", ", $parameters);
-    print_r($title);
-    print_r($parameters);
+    $parameters = implode("\n", $parameters);
+
+    return $data = [
+        "id" => $id,
+        "user" => $name,
+        "profile" => $profile,
+        "locationUser" => $locationUser,
+        "badges" => $badges,
+        "title" => $title,
+        "created_at" => $created_at,
+        "url" => $url,
+        "location" => $location,
+        "image" => $images,
+        "price" => $price,
+        "parameters" => $parameters,
+        "description" => $description
+    ];
+
 }
 
 function getDataJson($html)

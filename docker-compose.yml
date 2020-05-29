@@ -1,28 +1,22 @@
-version: "3"
+version: '2.0'
 services:
-  postgres_triple:
-    container_name: postgres_triple
-    image: postgres:9.5
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    #build: .
+    hostname: rabbitmq
     volumes:
-      - pgdata_triple:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=postgres
-  postgres:
-    container_name: postgres
-    image: postgres:9.5
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=postgres
-  collectiwise:
-    container_name: collectiwise
-    build: .
-    image: collectiwise/main
+      - './mnesia1:/var/lib/rabbitmq'
     ports:
-      - "8090:80"
+      - '5672:5672'
+      - '15672:15672'
     environment:
-      - DB_HOST=postgres
-      - COLLECTIWISE_BRANCH=${BRANCH}
+      - 'RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}'
+      - 'RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}'
+      - 'RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}'
+      - 'RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}'
+    networks:
+      - crawlolx
 volumes:
-  pgdata:
-  pgdata_triple:
+  devshm: null
+networks:
+  crawlolx: null

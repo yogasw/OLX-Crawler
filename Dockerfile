@@ -1,18 +1,27 @@
-FROM golang:alpine
+FROM golang:alpine as servicewa
 WORKDIR /usr/local
 RUN apk update
-RUN apk add git
-RUN apk add --update bash
+RUN apk add --no-cache git php7 curl wget curl git --repository http://nl.alpinelinux.org/alpine/edge/testing/ && rm /var/cache/apk/*
 ENV GO_VERSION=1.14.3
 ENV GOPATH /go
 ENV GOBIN /go/bin
 ENV PATH /usr/local/go/bin:/go/bin:$PATH
-WORKDIR /code
-COPY . .
-WORKDIR serviceSendTextMessage
+WORKDIR /code/serviceSendTextMessage
+COPY serviceSendTextMessage .
+RUN ls
 RUN go get .
 RUN go build .
 
 
-
+FROM php:alpine
+RUN apk add --update bash
+WORKDIR /code/crawl-olx
+COPY crawl-olx .
+RUN docker-php-ext-install sockets
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+RUN composer install
+#RUN php crawl-data-motor.php
+COPY --from=servicewa /code/serviceSendTextMessage /code/serviceSendTextMessage
+WORKDIR /code/
+#RUN /code/serviceSendTextMessage/serviceSendTextMessage
 CMD ["/bin/sh"]

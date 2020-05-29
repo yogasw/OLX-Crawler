@@ -112,9 +112,9 @@ class SpreedSheet
         $connection = new AMQPStreamConnection('moose.rmq.cloudamqp.com', 5672, 'pcjfkwqt', 'QIUWu8D3pwgJCibHDLDx5q-QYa1KyHLc', 'pcjfkwqt');
         $channel = $connection->channel();
         if (!$connection->isConnected()) {
-            throw new Exception('Connection failed.');
+            throw new Exception('Connection RabbitMQ Failed. \n');
         } else {
-            print_r("Connection success \n");
+            print_r("Connection RabbitMQ Success \n");
         }
         $channel->queue_declare('wa-text', false, false, false, false);
 
@@ -147,6 +147,6 @@ class SpreedSheet
 
         $channel->close();
         $connection->close();
-        print_r("Connection closed \n");
+        print_r("Connection RabbitMQ Closed \n");
     }
 }

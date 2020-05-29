@@ -1,0 +1,36 @@
+version: '2'
+services:
+#  whatsapp:
+#    build: .
+#    environment:
+#      - 'SELENIUM=http://firefox:4444/wd/hub'
+#    volumes:
+#      - '.:/app'
+#    command: 'python sample/remote.py'
+#    networks:
+#      - selenium
+#    depends_on:
+#      - firefox
+  rabbitmq:
+    image: 'rabbitmq:3.8.4-alpine'
+    build: .
+    hostname: rabbitmq
+    volumes:
+      - './mnesia1:/var/lib/rabbitmq'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_ERLANG_COOKIE:123123
+      - RABBITMQ_DEFAULT_USER:qiscus
+      - RABBITMQ_DEFAULT_PASS:qiscus
+      - RABBITMQ_DEFAULT_VHOST:rabbitmq1
+      - RABBITMQ_NODE_IP_ADDRESS:0.0.0.0
+    networks:
+      - crawl-olx
+#    depends_on:
+#      - firefox
+volumes:
+  devshm: null
+networks:
+  crawl-olx: null

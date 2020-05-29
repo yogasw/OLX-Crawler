@@ -2,7 +2,6 @@ version: '2.0'
 services:
   rabbitmq:
     image: 'rabbitmq:3-management'
-    #build: .
     hostname: rabbitmq
     volumes:
       - './mnesia1:/var/lib/rabbitmq'
@@ -16,6 +15,13 @@ services:
       - 'RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}'
     networks:
       - crawlolx
+  servicewa:
+    image: 'golang:1.14.3-alpine'
+    hostname: servicewa
+    build: Dockerfile
+    networks:
+      - crawlolx
+    command: 'golang'
 volumes:
   devshm: null
 networks:

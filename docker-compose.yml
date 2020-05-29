@@ -16,12 +16,12 @@ services:
     networks:
       - crawlolx
   servicewa:
-    image: 'golang:1.14.3-alpine'
     hostname: servicewa
-    build: Dockerfile
+    build: .
     networks:
       - crawlolx
-    command: 'golang'
+    command: "/code/serviceSendTextMessage/serviceSendTextMessage"
+    tty: true
 volumes:
   devshm: null
 networks:

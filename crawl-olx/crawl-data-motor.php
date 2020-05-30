@@ -93,7 +93,7 @@ function crawlListData()
 
 function crawlDetail($item)
 {
-    global $json, getenv("URL_SCHEMA");
+    global $json;
     $url = getenv("URL_SCHEMA") . $item;
     $html = getDataJson(getCURL($url));
     $html = $json->decode($html);

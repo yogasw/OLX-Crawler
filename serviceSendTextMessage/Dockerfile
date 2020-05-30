@@ -1,6 +1,7 @@
 FROM golang:alpine as servicewa
 WORKDIR /usr/local
 RUN apk add --no-cache git
+RUN apk add --update bash
 ENV GO_VERSION=1.14.3
 ENV GOPATH /go
 ENV GOBIN /go/bin

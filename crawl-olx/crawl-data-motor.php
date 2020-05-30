@@ -5,7 +5,7 @@ require __DIR__ . "/SpreedSheet.php";
 $json = new Services_JSON();
 $cookieFile = "cookie.txt";
 $URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
-$URL_TARGET_CRAWL = "https://www.olx.co.id/yogyakarta-di_g2000032/motor_c87/q-beat-street?sorting=desc-creation";
+$URL_TARGET_CRAWL = "https://www.olx.co.id/motor-bekas_c200?filter=m_seller_type_eq_seller-type-individu";
 $URL_SCHEMA = "https://www.olx.co.id/item/";
 $EMAIL = "mryoga1995@gmail.com";
 $PASSWORD = "Yoga12345";

@@ -1,7 +1,6 @@
 FROM golang:alpine as servicewa
 WORKDIR /usr/local
-RUN apk update
-RUN apk add --no-cache git php7 curl wget curl git --repository http://nl.alpinelinux.org/alpine/edge/testing/ && rm /var/cache/apk/*
+RUN apk add --no-cache git
 ENV GO_VERSION=1.14.3
 ENV GOPATH /go
 ENV GOBIN /go/bin
@@ -11,7 +10,6 @@ COPY serviceSendTextMessage .
 RUN ls
 RUN go get .
 RUN go build .
-
 
 FROM php:alpine
 RUN apk add --update bash
@@ -26,8 +24,8 @@ WORKDIR /code/
 RUN mkdir /tmp/WhatsAppSession/
 RUN ls /tmp/
 
-# Run the cron every minute
-RUN echo '*/1 * * * *   "php /code/crawl-olx/crawl-data-motor.php"' > /etc/crontabs/root
+# Run the cron
+RUN echo '*/30 * * * * /usr/local/bin/php /code/crawl-olx/crawl-data-motor.php' > /etc/crontabs/root
 CMD crond -l 2 -f
 
 #RUN /code/serviceSendTextMessage/serviceSendTextMessage

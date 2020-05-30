@@ -5,10 +5,9 @@ require __DIR__ . "/SpreedSheet.php";
 $json = new Services_JSON();
 $cookieFile = "cookie.txt";
 $URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
-$URL_TARGET_CRAWL = "https://www.olx.co.id/motor-bekas_c200?filter=m_seller_type_eq_seller-type-individu";
-$URL_SCHEMA = "https://www.olx.co.id/item/";
-$EMAIL = "mryoga1995@gmail.com";
-$PASSWORD = "Yoga12345";
+$URL_TARGET_CRAWL = getenv("PAGE_URL_OLX");
+$EMAIL = "";
+$PASSWORD = "";
 
 if (!file_exists($cookieFile)) {
     $fh = fopen($cookieFile, "w");
@@ -94,8 +93,8 @@ function crawlListData()
 
 function crawlDetail($item)
 {
-    global $json, $URL_SCHEMA;
-    $url = $URL_SCHEMA . $item;
+    global $json, getenv("URL_SCHEMA");
+    $url = getenv("URL_SCHEMA") . $item;
     $html = getDataJson(getCURL($url));
     $html = $json->decode($html);
     $elements = $html->states->items->elements->{$item};

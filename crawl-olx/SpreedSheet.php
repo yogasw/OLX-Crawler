@@ -8,7 +8,6 @@ require __DIR__ . "/vendor/autoload.php";
 class SpreedSheet
 {
     public $service;
-    public $spreadsheetId = "1a99s1jK3T-wBZI1rlpLsECdi5WFnpq8h3U6uUP8oNIs";
 
     function __construct()
     {
@@ -16,7 +15,7 @@ class SpreedSheet
         $client->setApplicationName("Google Sheets and PHP");
         $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
         $client->setAccessType('offline');
-        $client->setAuthConfig(__DIR__ . '/elated-lotus-161202-10ba0a49a397.json');
+        $client->setAuthConfig(__DIR__ . getenv("SPREED_SHEET_AUTH"));
         $this->service = new Google_Service_Sheets($client);
     }
 
@@ -37,7 +36,7 @@ class SpreedSheet
         ]);
 
         $this->service->spreadsheets_values->update(
-            $this->spreadsheetId,
+            getenv("SPREED_SHEET_ID"),
             $range,
             $body,
             $params
@@ -66,7 +65,7 @@ class SpreedSheet
             'valueInputOption' => 'USER_ENTERED'
         ];
         $this->service->spreadsheets_values->append(
-            $this->spreadsheetId,
+            getenv("SPREED_SHEET_ID"),
             $range,
             $body,
             $insert
@@ -88,7 +87,7 @@ class SpreedSheet
             'values' => $values
         ]);
         $result = $this->service->spreadsheets_values->update(
-            $this->spreadsheetId,
+            getenv("SPREED_SHEET_ID"),
             $range,
             $body,
             $params
@@ -109,7 +108,7 @@ class SpreedSheet
 
     function sendData($data)
     {
-        $connection = new AMQPStreamConnection('moose.rmq.cloudamqp.com', 5672, getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
+        $connection = new AMQPStreamConnection('rabbitmq', 5672, getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
         $channel = $connection->channel();
         if (!$connection->isConnected()) {
             throw new Exception('Connection RabbitMQ Failed. \n');
@@ -136,7 +135,7 @@ class SpreedSheet
                     . "*Location :*\n{$item["locationUser"]}\n\n"
                     . "*Badges :* {$item["badges"]}\n\n";
                 $message = [
-                    "Target" => "6282329949292-1590306644@g.us",
+                    "Target" => getenv("TARGET_WA_MESSAGE"),
                     "Message" => $message
                 ];
                 $msg = new AMQPMessage(json_encode($message));

@@ -25,11 +25,10 @@ services:
     networks:
       - crawlolx
     tty: true
-    stdin_open: true
     command: /code/serviceSendTextMessage/serviceSendTextMessage
     depends_on:
       - rabbitmq
-  serivicecrawl:
+  servicecrawl:
     hostname: serivicecrawl
     build:
       context: .

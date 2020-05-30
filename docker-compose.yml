@@ -4,7 +4,7 @@ services:
     image: 'rabbitmq:3-management'
     hostname: rabbitmq
     volumes:
-      - './mnesia1:/var/lib/rabbitmq'
+      - './.data:/var/lib/rabbitmq'
     ports:
       - '5672:5672'
       - '15672:15672'

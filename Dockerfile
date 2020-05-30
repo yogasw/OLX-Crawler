@@ -25,5 +25,10 @@ COPY --from=servicewa /code/serviceSendTextMessage /code/serviceSendTextMessage
 WORKDIR /code/
 RUN mkdir /tmp/WhatsAppSession/
 RUN ls /tmp/
+
+# Run the cron every minute
+RUN echo '*/1 * * * *   "php /code/crawl-olx/crawl-data-motor.php"' > /etc/crontabs/root
+CMD crond -l 2 -f
+
 #RUN /code/serviceSendTextMessage/serviceSendTextMessage
 CMD ["/bin/sh"]

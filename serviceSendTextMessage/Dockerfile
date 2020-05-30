@@ -8,6 +8,6 @@ ENV PATH /usr/local/go/bin:/go/bin:$PATH
 WORKDIR /code/serviceSendTextMessage
 COPY serviceSendTextMessage .
 RUN ls
-RUN go get .
-RUN go build .
+#RUN go get .
+#RUN go build .
 RUN mkdir /tmp/WhatsAppSession/

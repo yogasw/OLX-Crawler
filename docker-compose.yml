@@ -12,7 +12,7 @@ services:
       - .env
     networks:
       - crawlolx
-    command: "rabbitmqadmin declare queue name=$RABBITMQ_DEFAULT_QUEUE durable=true -u $RABBITMQ_DEFAULT_USER -p $RABBITMQ_DEFAULT_PASS"
+   #command: "/usr/local/bin/rabbitmqadmin declare queue name=$RABBITMQ_DEFAULT_QUEUE durable=true -u $RABBITMQ_DEFAULT_USER -p $RABBITMQ_DEFAULT_PASS"
   servicewa:
     hostname: servicewa
     build:
@@ -25,6 +25,7 @@ services:
     networks:
       - crawlolx
     tty: true
+    stdin_open: true
     command: /code/serviceSendTextMessage/serviceSendTextMessage
     depends_on:
       - rabbitmq

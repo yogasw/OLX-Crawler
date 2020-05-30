@@ -36,7 +36,7 @@ type Message struct {
 }
 
 func main() {
-	server := flag.String("server", "amqp://@guest:@guest@rabbitmq"+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
+	server := flag.String("server", "amqp://"+os.Getenv("RABBITMQ_DEFAULT_USER")+":"+os.Getenv("RABBITMQ_DEFAULT_PASS")+"@rabbitmq"+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
 	queue := flag.String("queue", os.Getenv("RABBITMQ_DEFAULT_QUEUE"), "Queue RabbitMQ")
 	phone := flag.String("phone", os.Getenv("MASTER_PHONE_NUMBER"), "Primary Number Phone")
 	flag.Usage = myUsage

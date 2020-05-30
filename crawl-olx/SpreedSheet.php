@@ -109,14 +109,14 @@ class SpreedSheet
 
     function sendData($data)
     {
-        $connection = new AMQPStreamConnection('moose.rmq.cloudamqp.com', 5672, 'pcjfkwqt', 'QIUWu8D3pwgJCibHDLDx5q-QYa1KyHLc', 'pcjfkwqt');
+        $connection = new AMQPStreamConnection('moose.rmq.cloudamqp.com', 5672, getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
         $channel = $connection->channel();
         if (!$connection->isConnected()) {
             throw new Exception('Connection RabbitMQ Failed. \n');
         } else {
             print_r("Connection RabbitMQ Success \n");
         }
-        $channel->queue_declare('wa-text', false, false, false, false);
+        $channel->queue_declare(getenv("RABBITMQ_DEFAULT_QUEUE"), false, false, false, false);
 
         foreach ($data as $item) {
             if (!$this->isDataExist($item["id"], "olx", "A:A")) {

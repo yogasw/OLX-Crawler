@@ -138,7 +138,7 @@ func login(wac *whatsapp.Conn) error {
 
 func readSession() (whatsapp.Session, error) {
 	session := whatsapp.Session{}
-	file, err := os.Open(os.TempDir() + "/WhatsAppSession/" + noPhone + ".gob")
+	file, err := os.Open(os.TempDir() + "/WhatsAppSession" + noPhone + ".gob")
 	if err != nil {
 		return session, err
 	}
@@ -152,7 +152,7 @@ func readSession() (whatsapp.Session, error) {
 }
 
 func writeSession(session whatsapp.Session) error {
-	file, err := os.Create(os.TempDir() + "/WhatsAppSession/" + noPhone + ".gob")
+	file, err := os.Create(os.TempDir() + "/WhatsAppSession" + noPhone + ".gob")
 	if err != nil {
 		return err
 	}

@@ -1,8 +1,17 @@
-# Delete every Docker containers
-# Must be run first because images are attached to containers
-docker rm -f $(docker ps -a -q)
+#!/bin/bash
 
-# Delete every Docker image
-docker rmi -f $(docker images -q)
+echo -n "WARNING! delete all docker images and containers on your machine (No/yes) : "
+read ANSWER
 
-sudo rm -rf .data/
+if [[ $ANSWER == "yes" ]]
+then
+  # Delete every Docker containers
+  # Must be run first because images are attached to containers
+
+  docker rm -f $(docker ps -a -q)
+
+  # Delete every Docker image
+  docker rmi -f $(docker images -q)
+
+  sudo rm -rf .data/
+fi

@@ -18,6 +18,8 @@ services:
   servicewa:
     hostname: servicewa
     build: .
+    volumes:
+    - './data:/tmp/WhatsAppSession'
     networks:
       - crawlolx
     command: "/code/serviceSendTextMessage/serviceSendTextMessage"

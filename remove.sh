@@ -4,3 +4,5 @@ docker rm -f $(docker ps -a -q)
 
 # Delete every Docker image
 docker rmi -f $(docker images -q)
+
+sudo rm -rf .data/

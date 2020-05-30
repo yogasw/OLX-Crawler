@@ -23,5 +23,7 @@ RUN composer install
 #RUN php crawl-data-motor.php
 COPY --from=servicewa /code/serviceSendTextMessage /code/serviceSendTextMessage
 WORKDIR /code/
+RUN mkdir /tmp/WhatsAppSession/
+RUN ls /tmp/
 #RUN /code/serviceSendTextMessage/serviceSendTextMessage
 CMD ["/bin/sh"]

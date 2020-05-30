@@ -1,1 +1,1 @@
-docker-compose up -d && docker-compose logs -f servicewa
+sudo docker-compose up -d && sudo docker-compose logs -f servicewa

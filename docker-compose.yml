@@ -8,24 +8,26 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
-    environment:
-      - 'RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}'
-      - 'RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}'
-      - 'RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}'
-      - 'RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}'
+    env_file:
+      - .env
     networks:
       - crawlolx
+    command: "rabbitmqadmin declare queue name=$RABBITMQ_DEFAULT_QUEUE durable=true -u $RABBITMQ_DEFAULT_USER -p $RABBITMQ_DEFAULT_PASS"
   servicewa:
     hostname: servicewa
     build:
       context: .
-      dockerfile:  serviceSendTextMessage/Dockerfile
+      dockerfile: serviceSendTextMessage/Dockerfile
     volumes:
       - './.data/WhatsAppSession:/tmp/WhatsAppSession'
+    env_file:
+      - .env
     networks:
       - crawlolx
     tty: true
-    command: "/code/serviceSendTextMessage/serviceSendTextMessage"
+    command: /code/serviceSendTextMessage/serviceSendTextMessage
+    depends_on:
+      - rabbitmq
   serivicecrawl:
     hostname: serivicecrawl
     build:
@@ -34,7 +36,11 @@ services:
     networks:
       - crawlolx
     tty: true
-    command: "crond -l 2 -f"
+    env_file:
+      - .env
+    command: crond -l 2 -f
+    depends_on:
+      - rabbitmq
 volumes:
   devshm: null
 networks:

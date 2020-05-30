@@ -152,6 +152,9 @@ func readSession() (whatsapp.Session, error) {
 }
 
 func writeSession(session whatsapp.Session) error {
+	if _, err := os.Stat(os.TempDir() + "/WhatsAppSession/"); os.IsNotExist(err) {
+		os.Mkdir(os.TempDir()+"/WhatsAppSession/", 0700)
+	}
 	file, err := os.Create(os.TempDir() + "/WhatsAppSession/" + noPhone + ".gob")
 	if err != nil {
 		return err

@@ -17,13 +17,24 @@ services:
       - crawlolx
   servicewa:
     hostname: servicewa
-    build: .
+    build:
+      context: .
+      dockerfile:  serviceSendTextMessage/Dockerfile
     volumes:
-    - './.data/WhatsAppSession:/tmp/WhatsAppSession'
+      - './.data/WhatsAppSession:/tmp/WhatsAppSession'
     networks:
       - crawlolx
-    command: "/code/serviceSendTextMessage/serviceSendTextMessage"
     tty: true
+    command: "/code/serviceSendTextMessage/serviceSendTextMessage"
+  serivicecrawl:
+    hostname: serivicecrawl
+    build:
+      context: .
+      dockerfile: crawl-olx/Dockerfile
+    networks:
+      - crawlolx
+    tty: true
+    command: "crond -l 2 -f"
 volumes:
   devshm: null
 networks:

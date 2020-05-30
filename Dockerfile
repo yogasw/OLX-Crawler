@@ -26,7 +26,3 @@ RUN ls /tmp/
 
 # Run the cron
 RUN echo '*/30 * * * * /usr/local/bin/php /code/crawl-olx/crawl-data-motor.php' > /etc/crontabs/root
-CMD crond -l 2 -f
-
-#RUN /code/serviceSendTextMessage/serviceSendTextMessage
-CMD ["/bin/sh"]

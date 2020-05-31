@@ -27,5 +27,5 @@ Wait 30 minutes once the bot will send a message on your WhatsApp
 If successful will display the response ```[*] Waiting for messages. To exit press CTRL+C```
 
 ## Legal
-This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WhatsApp or any of its
+This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by OLX or any of its
 affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.

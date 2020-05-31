@@ -122,7 +122,9 @@ function crawlDetail($item)
     $location = "https://maps.google.com/?q=$location->lat,$location->lon";
     $price = $elements->price->value->display;
     $images = [];
+    $thumbnail = "";
     for ($i = 0; $i < count($elements->images) && $i < 3; $i++) {
+        if ($i == 0) $thumbnail = $elements->images[$i]->url;
         array_push($images, "_" . $elements->images[$i]->url . "_");
     }
     $images = implode(",\n", $images);
@@ -147,6 +149,7 @@ function crawlDetail($item)
         "created_at" => $created_at,
         "url" => $url,
         "location" => $location,
+        "thumbnail" => $thumbnail,
         "image" => $images,
         "price" => $price,
         "parameters" => $parameters,

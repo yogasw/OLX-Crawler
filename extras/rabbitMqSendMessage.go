@@ -23,6 +23,7 @@ type Message struct {
 func main() {
 	message := flag.String("message", "default", "message")
 	image := flag.String("image", "https://api.cloudamqp.com/img/lemur_256.png", "image")
+	server := flag.String("server", "amqp://"+os.Getenv("RABBITMQ_DEFAULT_USER")+":"+os.Getenv("RABBITMQ_DEFAULT_PASS")+"@rabbitmq"+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
 	queue := flag.String("queue", os.Getenv("RABBITMQ_DEFAULT_QUEUE"), "Queue RabbitMQ")
 	target := flag.String("target", os.Getenv("TARGET_WA_MESSAGE"), "ex : 628xx@s.whatsapp.net or xxx-xxx@g.us")
 

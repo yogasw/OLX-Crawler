@@ -136,7 +136,8 @@ class SpreedSheet
                     . "*Badges :* {$item["badges"]}\n\n";
                 $message = [
                     "Target" => getenv("TARGET_WA_MESSAGE"),
-                    "Message" => $message
+                    "Message" => $message,
+                    "Image" =>$item["thumbnail"]
                 ];
                 $msg = new AMQPMessage(json_encode($message));
                 $channel->basic_publish($msg, '', 'wa-text');

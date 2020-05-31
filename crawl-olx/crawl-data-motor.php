@@ -123,7 +123,7 @@ function crawlDetail($item)
     $price = $elements->price->value->display;
     $images = [];
     for ($i = 0; $i < count($elements->images) && $i < 3; $i++) {
-        array_push($images, $elements->images[$i]->url);
+        array_push($images, "_" . $elements->images[$i]->url . "_");
     }
     $images = implode(",\n", $images);
 
@@ -132,7 +132,7 @@ function crawlDetail($item)
         array_push($parameters, "$item->key_name : $item->formatted_value");
         if ($item->key_name == "phone") {
             $phone = explode("+", $item->formatted_value)[1];
-            array_push($parameters, "wa : https://wa.me/$phone");
+            array_push($parameters, "wa : _https://wa.me/$phone" . "_");
         }
     };
     $parameters = implode("\n", $parameters);

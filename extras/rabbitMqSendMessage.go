@@ -17,11 +17,12 @@ func failOnError(err error, msg string) {
 type Message struct {
 	Target  string
 	Message string
+	Image   string
 }
 
 func main() {
 	message := flag.String("message", "default", "message")
-	server := flag.String("server", "amqp://"+os.Getenv("RABBITMQ_DEFAULT_USER")+":"+os.Getenv("RABBITMQ_DEFAULT_PASS")+"@rabbitmq"+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
+	image := flag.String("image", "https://api.cloudamqp.com/img/lemur_256.png", "image")
 	queue := flag.String("queue", os.Getenv("RABBITMQ_DEFAULT_QUEUE"), "Queue RabbitMQ")
 	target := flag.String("target", os.Getenv("TARGET_WA_MESSAGE"), "ex : 628xx@s.whatsapp.net or xxx-xxx@g.us")
 
@@ -47,6 +48,7 @@ func main() {
 	data := Message{
 		Target:  *target,
 		Message: *message,
+		Image: *image,
 	}
 	body, err := json.Marshal(data)
 	failOnError(err, "Error")

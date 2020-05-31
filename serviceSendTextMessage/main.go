@@ -1,13 +1,10 @@
 package main
 
 import (
-	"encoding/gob"
 	"encoding/json"
 	"flag"
 	"fmt"
-	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/Rhymen/go-whatsapp"
-	"github.com/Rhymen/go-whatsapp/binary/proto"
 	"github.com/streadway/amqp"
 	"log"
 	"os"
@@ -33,6 +30,7 @@ func myUsage() {
 type Message struct {
 	Target  string
 	Message string
+	Image   string
 }
 
 func main() {
@@ -94,7 +92,8 @@ func main() {
 			var message Message
 			json.Unmarshal(d.Body, &message)
 			if messageCheck(message.Target) {
-				sendMessage(message.Target, message.Message, wac)
+				sendMessage(message.Target, message.Message, message.Image, wac)
+
 			} else {
 				log.Printf("Format Target Not Valid, ex : 628xx@s.whatsapp.net or xxx-xxx@g.us")
 			}
@@ -104,99 +103,6 @@ func main() {
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
-}
-
-func login(wac *whatsapp.Conn) error {
-	//load saved session
-	session, err := readSession()
-	if err == nil {
-		//restore session
-		session, err = wac.RestoreWithSession(session)
-		if err != nil {
-			return fmt.Errorf("restoring failed: %v\n", err)
-		}
-	} else {
-		//no saved session -> regular login
-		qr := make(chan string)
-		go func() {
-			terminal := qrcodeTerminal.New()
-			terminal.Get(<-qr).Print()
-		}()
-		session, err = wac.Login(qr)
-		if err != nil {
-			return fmt.Errorf("error during login: %v\n", err)
-		}
-	}
-
-	//save session
-	err = writeSession(session)
-	if err != nil {
-		return fmt.Errorf("error saving session: %v\n", err)
-	}
-	return nil
-}
-
-func readSession() (whatsapp.Session, error) {
-	session := whatsapp.Session{}
-	file, err := os.Open(os.TempDir() + "/WhatsAppSession/" + noPhone + ".gob")
-	if err != nil {
-		return session, err
-	}
-	defer file.Close()
-	decoder := gob.NewDecoder(file)
-	err = decoder.Decode(&session)
-	if err != nil {
-		return session, err
-	}
-	return session, nil
-}
-
-func writeSession(session whatsapp.Session) error {
-	if _, err := os.Stat(os.TempDir() + "/WhatsAppSession/"); os.IsNotExist(err) {
-		os.Mkdir(os.TempDir()+"/WhatsAppSession/", 0700)
-	}
-	file, err := os.Create(os.TempDir() + "/WhatsAppSession/" + noPhone + ".gob")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	encoder := gob.NewEncoder(file)
-	err = encoder.Encode(session)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func sendMessage(remoteJid string, message string, wac *whatsapp.Conn) {
-	previousMessage := "😘"
-	quotedMessage := proto.Message{
-		Conversation: &previousMessage,
-	}
-
-	ContextInfo := whatsapp.ContextInfo{
-		QuotedMessage:   &quotedMessage,
-		QuotedMessageID: "",
-		Participant:     "", //Whot sent the original message
-	}
-
-	msg := whatsapp.TextMessage{
-		Info: whatsapp.MessageInfo{
-			RemoteJid: remoteJid,
-		},
-		ContextInfo: ContextInfo,
-		Text:        message,
-	}
-
-	msgId, err := wac.Send(msg)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error sending message: %v", err)
-		//os.Exit(1)
-		<-time.After(5 * time.Second)
-		wac.Send(msg)
-	} else {
-		fmt.Println("Message Sent -> ID : " + msgId)
-	}
 }
 
 func messageCheck(str string) bool {

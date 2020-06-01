@@ -8,13 +8,13 @@ $URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
 $URL_TARGET_CRAWL = getenv("PAGE_URL_OLX");
 $EMAIL = "";
 $PASSWORD = "";
+$spreedSheet = new SpreedSheet();
 
 if (!file_exists($cookieFile)) {
     $fh = fopen($cookieFile, "w");
     fwrite($fh, "");
     fclose($fh);
 }
-getCURL("https://www.olx.co.id/");
 //login();
 
 crawlListData();
@@ -74,7 +74,7 @@ function login()
 
 function crawlListData()
 {
-    global $URL_TARGET_CRAWL, $json;
+    global $URL_TARGET_CRAWL, $json, $spreedSheet;
     $data = getDataJson(getCURL($URL_TARGET_CRAWL));
     $data = $json->decode($data);
     $data = $data->states->items->collections;
@@ -82,13 +82,15 @@ function crawlListData()
     $data = reset($data);
     $list_data = [];
     foreach ($data as $item) {
-        array_push($list_data, crawlDetail($item));
+        if (!$spreedSheet->isDataExist($item, "olx", "A:A")) {
+            array_push($list_data, crawlDetail($item));
+        }
     }
     /*for ($i = 0; $i < 1; $i++) {
         array_push($list_data, crawlDetail($data[$i]));
     }*/
-    $spreedSheet = new SpreedSheet();
-    $spreedSheet->sendData($list_data);
+
+    if (count($list_data) > 1) $spreedSheet->sendData($list_data);
 }
 
 function crawlDetail($item)

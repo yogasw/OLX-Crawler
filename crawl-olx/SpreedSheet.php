@@ -72,7 +72,7 @@ class SpreedSheet
         );
     }
 
-    private function isDataExist($searchValue, $searchSheet, $searchRange)
+    function isDataExist($searchValue, $searchSheet, $searchRange)
     {
         $params = [
             'valueInputOption' => 'USER_ENTERED',
@@ -108,7 +108,7 @@ class SpreedSheet
 
     function sendData($data)
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
+        $connection = new AMQPStreamConnection(getenv("RABBITMQ_SERVER"), getenv("RABBITMQ_PORT"), getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
         $channel = $connection->channel();
         if (!$connection->isConnected()) {
             throw new Exception('Connection RabbitMQ Failed. \n');

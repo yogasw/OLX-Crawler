@@ -2,3 +2,4 @@
 .cookie.txt
 .data
 /serviceSendTextMessage/serviceSendTextMessage
+/extras/rabbitMqSendMessage

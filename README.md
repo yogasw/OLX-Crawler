@@ -70,7 +70,7 @@ www.olx.co.id/item/beat-street-2019-akhir-ab-sleman-km-9rbnpjk-panjang-iid-78439
 <b>Name :</b> Eddy Susanto<br>
 
 <b>Profile :</b><br>
-https://www.olx.co.id/profile/65695098
+<i>https://www.olx.co.id/profile/65695098<i/>
 
 <b>Location :</b><br>
 https://maps.google.com/?q=-7.803,110.438

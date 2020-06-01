@@ -25,6 +25,54 @@ If you have not had the time to scan the QR code but it has expired QR code, whe
 Wait 30 minutes once the bot will send a message on your WhatsApp
 
 If successful will display the response ```[*] Waiting for messages. To exit press CTRL+C```
+## Example receive messages
+<b>Beat Street 2019 akhir AB sleman (km 9rb'n.pjk panjang)</b>
+
+<b>Ad description</b><br>
+<b>Created At :</b><br>
+2020-06-01T12:48:28+07:00
+
+<b>Location :</b><br>
+https://maps.google.com/?q=-7.803,110.438
+
+<b>Image :</b><br>
+https://apollo-singapore.akamaized.net:443/v1/files/s9jg9ezk972s1-ID/image,
+https://apollo-singapore.akamaized.net:443/v1/files/x2uhjpq6ysyo2-ID/image,
+https://apollo-singapore.akamaized.net:443/v1/files/onfoxqc25k5i1-ID/image
+
+<b>Price :</b> Rp 12.500.000
+
+<b>Parameters : </b><br>
+Merek : Honda<br>
+Model : Beat<br>
+Tahun : 2019<br>
+Jarak tempuh : 20.000-25.000 km<br>
+Tipe Penjual : Individu<br>
+phone : +6281392755313<br>
+wa : https://wa.me/6281392755313<br>
+
+<b>Description : </b><br>
+Jual cepat BU bgt beat street 2019 AB sleman
+Standar.mulus.orisinil (km 9rb'n)
+Pajak hidup bln november 2020..Stnk.bpkb & faktur + kunci serep (lengkap)
+Harga:12,5_passs/nettt (nego NO RESPON)
+Lokasi:Berbah (sleman)
+Yg serius lgsg tlp/wa aja..
+Nb:Shok blkg pake punya yamaha X_ride ori empuk & lbh tinggi (yg ori lupa nyimpen)
+
+<b>Url : </b><br>
+www.olx.co.id/item/beat-street-2019-akhir-ab-sleman-km-9rbnpjk-panjang-iid-784397648
+
+<b>User description : </b><br>
+<b>Name :</b> Eddy Susanto<br>
+
+<b>Profile :</b><br>
+https://www.olx.co.id/profile/65695098
+
+<b>Location :</b><br>
+https://maps.google.com/?q=-7.803,110.438
+
+<b>Badges :</b> Facebook, G+, Phone number
 
 ## Legal
 This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by OLX or any of its

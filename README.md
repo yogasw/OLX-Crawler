@@ -36,12 +36,12 @@ If successful will display the response ```[*] Waiting for messages. To exit pre
 2020-06-01T12:48:28+07:00
 
 <b>Location :</b><br>
-https://maps.google.com/?q=-7.803,110.438
+<i>https://maps.google.com/?q=-7.803,110.438</i>
 
 <b>Image :</b><br>
-https://apollo-singapore.akamaized.net:443/v1/files/s9jg9ezk972s1-ID/image,
-https://apollo-singapore.akamaized.net:443/v1/files/x2uhjpq6ysyo2-ID/image,
-https://apollo-singapore.akamaized.net:443/v1/files/onfoxqc25k5i1-ID/image
+<i>https://apollo-singapore.akamaized.net:443/v1/files/s9jg9ezk972s1-ID/image,</i>
+<i>https://apollo-singapore.akamaized.net:443/v1/files/x2uhjpq6ysyo2-ID/image,</i>
+<i>https://apollo-singapore.akamaized.net:443/v1/files/onfoxqc25k5i1-ID/image</i>
 
 <b>Price :</b> Rp 12.500.000
 
@@ -52,7 +52,7 @@ Tahun : 2019<br>
 Jarak tempuh : 20.000-25.000 km<br>
 Tipe Penjual : Individu<br>
 phone : +6281392755313<br>
-wa : https://wa.me/6281392755313<br>
+wa : <i>https://wa.me/6281392755313</i><br>
 
 <b>Description : </b><br>
 Jual cepat BU bgt beat street 2019 AB sleman
@@ -64,7 +64,7 @@ Yg serius lgsg tlp/wa aja..
 Nb:Shok blkg pake punya yamaha X_ride ori empuk & lbh tinggi (yg ori lupa nyimpen)
 
 <b>Url : </b><br>
-www.olx.co.id/item/beat-street-2019-akhir-ab-sleman-km-9rbnpjk-panjang-iid-784397648
+<i>www.olx.co.id/item/beat-street-2019-akhir-ab-sleman-km-9rbnpjk-panjang-iid-784397648</i>
 
 <b>User description : </b><br>
 <b>Name :</b> Eddy Susanto<br>
@@ -73,7 +73,7 @@ www.olx.co.id/item/beat-street-2019-akhir-ab-sleman-km-9rbnpjk-panjang-iid-78439
 <i>https://www.olx.co.id/profile/65695098<i/>
 
 <b>Location :</b><br>
-https://maps.google.com/?q=-7.803,110.438
+<i>https://maps.google.com/?q=-7.803,110.438</i>
 
 <b>Badges :</b> Facebook, G+, Phone number
 

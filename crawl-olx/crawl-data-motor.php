@@ -90,7 +90,7 @@ function crawlListData()
         array_push($list_data, crawlDetail($data[$i]));
     }*/
 
-    if (count($list_data) > 1) $spreedSheet->sendData($list_data);
+    if (count($list_data) > 0) $spreedSheet->sendData($list_data);
 }
 
 function crawlDetail($item)

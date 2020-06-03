@@ -14,6 +14,7 @@ import (
 
 var (
 	noPhone string
+	wac     *whatsapp.Conn
 )
 
 func failOnError(err error, msg string) {
@@ -34,26 +35,13 @@ type Message struct {
 }
 
 func main() {
-	server := flag.String("server", "amqp://"+os.Getenv("RABBITMQ_DEFAULT_USER")+":"+os.Getenv("RABBITMQ_DEFAULT_PASS")+"@rabbitmq"+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
+	server := flag.String("server", "amqp://"+os.Getenv("RABBITMQ_DEFAULT_USER")+":"+os.Getenv("RABBITMQ_DEFAULT_PASS")+"@"+os.Getenv("RABBITMQ_SERVER")+os.Getenv("RABBITMQ_DEFAULT_VHOST"), "server RabbitMQ ex: amqp://xx:xx@xx.com/xx")
 	queue := flag.String("queue", os.Getenv("RABBITMQ_DEFAULT_QUEUE"), "Queue RabbitMQ")
 	phone := flag.String("phone", os.Getenv("MASTER_PHONE_NUMBER"), "Primary Number Phone")
 	flag.Usage = myUsage
 	flag.Parse()
 	noPhone = *phone
-
-	//create new WhatsApp connection
-	wac, err := whatsapp.NewConn(5 * time.Second)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error creating connection: %v\n", err)
-		return
-	}
-
-	err = login(wac)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error logging in: %v\n", err)
-		return
-	}
-
+	println(*server)
 	//create new RabbitMQ connection
 	conn, err := amqp.Dial(*server)
 	failOnError(err, "Failed to connect to RabbitMQ")
@@ -85,14 +73,18 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
-
 	go func() {
 		for d := range msgs {
 			<-time.After(5 * time.Second)
 			var message Message
 			json.Unmarshal(d.Body, &message)
 			if messageCheck(message.Target) {
-				sendMessage(message.Target, message.Message, message.Image, wac)
+				if wac == nil {
+					connectionWhatsApp()
+					sendMessage(message.Target, message.Message, message.Image, wac)
+				} else {
+					sendMessage(message.Target, message.Message, message.Image, wac)
+				}
 
 			} else {
 				log.Printf("Format Target Not Valid, ex : 628xx@s.whatsapp.net or xxx-xxx@g.us")

@@ -6,6 +6,7 @@ import (
 	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/Rhymen/go-whatsapp"
 	"os"
+	"time"
 )
 
 func login(wac *whatsapp.Conn) error {
@@ -68,4 +69,21 @@ func writeSession(session whatsapp.Session) error {
 		return err
 	}
 	return nil
+}
+
+func connectionWhatsApp() {
+	//create new WhatsApp connection
+	println("create new WhatsApp connection")
+	conn, err := whatsapp.NewConn(5 * time.Second)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error creating connection: %v\n", err)
+		return
+	}
+
+	err = login(conn)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error logging in: %v\n", err)
+		return
+	}
+	wac = conn
 }

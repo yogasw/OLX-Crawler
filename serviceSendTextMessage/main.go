@@ -71,7 +71,7 @@ func main() {
 		nil,    // args
 	)
 	failOnError(err, "Failed to register a consumer")
-
+	connectionWhatsApp()
 	forever := make(chan bool)
 	go func() {
 		for d := range msgs {

@@ -51,8 +51,8 @@ Model : Beat<br>
 Tahun : 2019<br>
 Jarak tempuh : 20.000-25.000 km<br>
 Tipe Penjual : Individu<br>
-phone : +6281392755313<br>
-wa : <i>https://wa.me/6281392755313</i><br>
+phone : +62813927xxxxx<br>
+wa : <i>https://wa.me/62813xxx</i><br>
 
 <b>Description : </b><br>
 Jual cepat BU bgt beat street 2019 AB sleman

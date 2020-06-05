@@ -1,5 +1,5 @@
 # OLX-Crawler
-TODO
+OLX Crawler is a bot that is used to monitor OLX sites periodically and send automatically to WhatsApp when there is new item on OLX site in detail
 
 ## Installation
 ### 1. Install docker and docker compose

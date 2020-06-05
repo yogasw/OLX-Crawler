@@ -1,7 +1,7 @@
 version: '2.0'
 services:
   rabbitmq:
-    image: 'rabbitmq:3-management'
+    image: rabbitmq:3-management
     hostname: rabbitmq
     volumes:
       - './.data:/var/lib/rabbitmq'

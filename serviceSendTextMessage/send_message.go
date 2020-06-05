@@ -3,31 +3,57 @@ package main
 import (
 	"fmt"
 	"github.com/Rhymen/go-whatsapp"
+	"github.com/Rhymen/go-whatsapp/binary/proto"
+	"log"
 	"os"
 	"time"
 )
 
 func sendMessage(remoteJid string, message string, imageUrl string, wac *whatsapp.Conn) {
-
-	msgId, err := wac.Send(getMessage(remoteJid, message, imageUrl))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error sending message: %v", err)
-		//os.Exit(1)
-		<-time.After(5 * time.Second)
-		wac.Send(getMessage(remoteJid, message, imageUrl))
+	if imageUrl == "" {
+		msgId, err := wac.Send(getTextMessage(remoteJid, message))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error sending message: %v", err)
+			//os.Exit(1)
+			<-time.After(5 * time.Second)
+			//wac.Send(getImageMessage(remoteJid, message, imageUrl))
+		} else {
+			log.Printf("Message Text Sent -> ID : " + msgId)
+		}
 	} else {
-		fmt.Println("Message Sent -> ID : " + msgId)
+		msgId, err := wac.Send(getImageMessage(remoteJid, message, imageUrl))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error sending message: %v", err)
+			//os.Exit(1)
+			<-time.After(5 * time.Second)
+			//wac.Send(getImageMessage(remoteJid, message, imageUrl))
+		} else {
+			log.Printf("Message Image Sent -> ID : " + msgId)
+		}
 	}
 }
 
-func getMessage(remoteJid string, message string, imageUrl string) whatsapp.ImageMessage {
+func getImageMessage(remoteJid string, message string, imageUrl string) whatsapp.ImageMessage {
 	image := GetImageFromUrl(imageUrl)
 	imagePath := SaveImage(image)
 	imageRender := GetReaderFromImage(imagePath)
 	thumb, err := getThumbnail(image)
-	failOnError(err,"error get message")
+	failOnError(err, "error get message")
+	imageMessage := whatsapp.ImageMessage{
+		Info: whatsapp.MessageInfo{
+			RemoteJid: remoteJid,
+		},
+		Type:      "image/jpeg",
+		Caption:   message,
+		Content:   imageRender,
+		Thumbnail: thumb,
+	}
 
-	/*previousMessage := "😘"
+	return imageMessage
+}
+
+func getTextMessage(remoteJid string, message string) whatsapp.TextMessage {
+	previousMessage := "😘"
 	quotedMessage := proto.Message{
 		Conversation: &previousMessage,
 	}
@@ -44,16 +70,6 @@ func getMessage(remoteJid string, message string, imageUrl string) whatsapp.Imag
 		},
 		ContextInfo: ContextInfo,
 		Text:        message,
-	}*/
-	imageMessage := whatsapp.ImageMessage{
-		Info: whatsapp.MessageInfo{
-			RemoteJid: remoteJid,
-		},
-		Type:      "image/jpeg",
-		Caption:   message,
-		Content:   imageRender,
-		Thumbnail: thumb,
 	}
-
-	return imageMessage
+	return textMessage
 }

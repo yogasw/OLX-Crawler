@@ -13,5 +13,5 @@ then
   # Delete every Docker image
   docker rmi -f $(docker images -q)
 
-  sudo rm -rf .data/
+#  sudo rm -rf .data/
 fi

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/Rhymen/go-whatsapp"
 	"github.com/streadway/amqp"
 	"log"
 	"os"
@@ -14,14 +13,8 @@ import (
 
 var (
 	noPhone string
-	wac     *whatsapp.Conn
 )
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
-}
 func myUsage() {
 	fmt.Printf("\nWA Send Message Text Service by arioki1\n\n")
 	fmt.Printf("Usage: %s [OPTIONS] argument ...\n", os.Args[0])
@@ -71,7 +64,7 @@ func main() {
 		nil,    // args
 	)
 	failOnError(err, "Failed to register a consumer")
-
+	wac := connectionWhatsApp()
 	forever := make(chan bool)
 	go func() {
 		for d := range msgs {
@@ -80,7 +73,7 @@ func main() {
 			json.Unmarshal(d.Body, &message)
 			if messageCheck(message.Target) {
 				if wac == nil {
-					connectionWhatsApp()
+					wac = connectionWhatsApp()
 					sendMessage(message.Target, message.Message, message.Image, wac)
 				} else {
 					sendMessage(message.Target, message.Message, message.Image, wac)

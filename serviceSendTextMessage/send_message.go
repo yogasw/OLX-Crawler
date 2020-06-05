@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Rhymen/go-whatsapp"
 	"github.com/Rhymen/go-whatsapp/binary/proto"
+	"log"
 	"os"
 	"time"
 )
@@ -17,7 +18,7 @@ func sendMessage(remoteJid string, message string, imageUrl string, wac *whatsap
 			<-time.After(5 * time.Second)
 			//wac.Send(getImageMessage(remoteJid, message, imageUrl))
 		} else {
-			fmt.Println("Message Text Sent -> ID : " + msgId)
+			log.Printf("Message Text Sent -> ID : " + msgId)
 		}
 	} else {
 		msgId, err := wac.Send(getImageMessage(remoteJid, message, imageUrl))
@@ -27,7 +28,7 @@ func sendMessage(remoteJid string, message string, imageUrl string, wac *whatsap
 			<-time.After(5 * time.Second)
 			//wac.Send(getImageMessage(remoteJid, message, imageUrl))
 		} else {
-			fmt.Println("Message Image Sent -> ID : " + msgId)
+			log.Printf("Message Image Sent -> ID : " + msgId)
 		}
 	}
 }

@@ -4,10 +4,12 @@ require __DIR__ . "/SpreedSheet.php";
 
 $json = new Services_JSON();
 $cookieFile = "cookie.txt";
-$URL_AUTH = "https://www.olx.co.id/api/auth/authenticate";
-$URL_TARGET_CRAWL = getenv("PAGE_URL_OLX");
 $EMAIL = "";
 $PASSWORD = "";
+$URL_TARGET_CRAWL = getenv("PAGE_URL_OLX");
+$parse = parse_url($URL_TARGET_CRAWL);
+$BASE_URL = "$parse[scheme]://$parse[host]";
+$URL_AUTH = "$BASE_URL/api/auth/authenticate";
 $spreedSheet = new SpreedSheet();
 
 if (!file_exists($cookieFile)) {
@@ -95,8 +97,8 @@ function crawlListData()
 
 function crawlDetail($item)
 {
-    global $json;
-    $url = getenv("URL_SCHEMA") . $item;
+    global $json, $BASE_URL;
+    $url = "$BASE_URL/item/$item";
     $html = getDataJson(getCURL($url));
     $html = $json->decode($html);
     $elements = $html->states->items->elements->{$item};
@@ -105,7 +107,7 @@ function crawlDetail($item)
     //Data User
     $htmlUser = $html->states->users->elements->{$idUser};
     $name = $htmlUser->name;
-    $profile = "https://www.olx.co.id/profile/$idUser";
+    $profile = "$BASE_URL/profile/$idUser";
     $locationUser = $htmlUser->locations[0];
     $locationUser = "https://maps.google.com/?q=$locationUser->lat,$locationUser->lon";
     $badges = [];

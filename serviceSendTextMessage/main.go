@@ -64,11 +64,7 @@ func main() {
 		nil,    // args
 	)
 	failOnError(err, "Failed to register a consumer")
-<<<<<<< HEAD
 	wac := connectionWhatsApp()
-=======
-	connectionWhatsApp()
->>>>>>> 6a31cfb4813394818b430ed1b708a92f8a3977fc
 	forever := make(chan bool)
 	go func() {
 		for d := range msgs {

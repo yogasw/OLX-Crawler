@@ -32,7 +32,7 @@ Wait 30 minutes once the bot will send a message on your WhatsApp
 If successful will display the response ```[*] Waiting for messages. To exit press CTRL+C```
 ## Example receive messages
 
-<img src="https://raw.githubusercontent.com/arioki1/OLX-Crawler/master/extras/WhatsApp%20Image%202020-06-01%20at%2013.00.46.jpeg" width="350" title="hover text">
+<img src="https://raw.githubusercontent.com/arioki1/OLX-Crawler/master/extras/WhatsApp%20Image%202020-06-01%20at%2013.00.46.jpeg" width="355" title="hover text">
 
 <b>Beat Street 2019 akhir AB sleman (km 9rb'n.pjk panjang)</b>
 

@@ -11,12 +11,11 @@ class SpreedSheet
 
     function __construct()
     {
-        print_r(__DIR__ ."/../config/" .getenv("SPREED_SHEET_AUTH"));
         $client = new \Google_Client();
         $client->setApplicationName("Google Sheets and PHP");
         $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
         $client->setAccessType('offline');
-        $client->setAuthConfig(__DIR__ ."/../config/" .getenv("SPREED_SHEET_AUTH"));
+        $client->setAuthConfig(__DIR__ . "/../config/" . getenv("SPREED_SHEET_AUTH"));
         $this->service = new Google_Service_Sheets($client);
     }
 
@@ -107,7 +106,7 @@ class SpreedSheet
 
     }
 
-    function sendData($data)
+    function sendData($data, $target)
     {
         $connection = new AMQPStreamConnection(getenv("RABBITMQ_SERVER"), getenv("RABBITMQ_PORT"), getenv("RABBITMQ_DEFAULT_USER"), getenv("RABBITMQ_DEFAULT_PASS"), getenv("RABBITMQ_DEFAULT_VHOST"));
         $channel = $connection->channel();
@@ -136,9 +135,9 @@ class SpreedSheet
                     . "*Location :*\n _{$item["locationUser"]}_\n\n"
                     . "*Badges :* {$item["badges"]}\n\n";
                 $message = [
-                    "Target" => getenv("TARGET_WA_MESSAGE"),
+                    "Target" => $target,
                     "Message" => $message,
-                    "Image" =>$item["thumbnail"]
+                    "Image" => $item["thumbnail"]
                 ];
                 $msg = new AMQPMessage(json_encode($message));
                 $channel->basic_publish($msg, '', 'wa-text');

@@ -35,6 +35,8 @@ services:
       dockerfile: crawl-olx/Dockerfile
     networks:
       - crawlolx
+    volumes:
+      - './config:/code/config'
     tty: true
     env_file:
       - config/.env

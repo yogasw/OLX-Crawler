@@ -25,7 +25,7 @@ class CrawlDataOLX
         //login();
         foreach ($config as $conf) {
             $name = $conf->name;
-            print_r("Crawl data $name \n");
+            print_r("Crawl : $name \n");
             $this->URL_TARGET_CRAWL = $conf->target_url;
             $this->TARGET_WA = $conf->target_wa;
             $this->parse = parse_url($this->URL_TARGET_CRAWL);

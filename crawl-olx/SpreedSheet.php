@@ -11,11 +11,12 @@ class SpreedSheet
 
     function __construct()
     {
+        print_r(__DIR__ ."/../config/" .getenv("SPREED_SHEET_AUTH"));
         $client = new \Google_Client();
         $client->setApplicationName("Google Sheets and PHP");
         $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
         $client->setAccessType('offline');
-        $client->setAuthConfig(__DIR__ ."/" .getenv("SPREED_SHEET_AUTH"));
+        $client->setAuthConfig(__DIR__ ."/../config/" .getenv("SPREED_SHEET_AUTH"));
         $this->service = new Google_Service_Sheets($client);
     }
 

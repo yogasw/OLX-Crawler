@@ -12,6 +12,7 @@ class CrawlDataOLX
         $parse,
         $BASE_URL,
         $URL_AUTH,
+        $TARGET_WA,
         $spreedSheet;
 
     public function __construct()
@@ -20,21 +21,27 @@ class CrawlDataOLX
         $this->cookieFile = "cookie.txt";
         $this->EMAIL = "";
         $this->PASSWORD = "";
-        $this->URL_TARGET_CRAWL = getenv("PAGE_URL_OLX");
-        $this->parse = parse_url($this->URL_TARGET_CRAWL);
-
-        $parse = $this->parse;
-        $this->BASE_URL = "$parse[scheme]://$parse[host]";
-        $this->URL_AUTH = "$this->BASE_URL/api/auth/authenticate";
-        $this->spreedSheet = new SpreedSheet();
-        if (!file_exists($this->cookieFile)) {
-            $fh = fopen($this->cookieFile, "w");
-            fwrite($fh, "");
-            fclose($fh);
-        }
-
-        $this->crawlListData();
+        $config = json_decode(file_get_contents(__DIR__ . "/../config/target.json"));
         //login();
+        foreach ($config as $conf) {
+            $name = $conf->name;
+            print_r("Crawl : $name \n");
+            $this->URL_TARGET_CRAWL = $conf->target_url;
+            $this->TARGET_WA = $conf->target_wa;
+            $this->parse = parse_url($this->URL_TARGET_CRAWL);
+            $parse = $this->parse;
+
+            $this->BASE_URL = "$parse[scheme]://$parse[host]";
+            $this->URL_AUTH = "$this->BASE_URL/api/auth/authenticate";
+            $this->spreedSheet = new SpreedSheet();
+            if (!file_exists($this->cookieFile)) {
+                $fh = fopen($this->cookieFile, "w");
+                fwrite($fh, "");
+                fclose($fh);
+            }
+
+            $this->crawlListData();
+        }
         unlink('cookie.txt');
     }
 
@@ -106,7 +113,7 @@ class CrawlDataOLX
             array_push($list_data, crawlDetail($data[$i]));
         }*/
 
-        if (count($list_data) > 0) $this->spreedSheet->sendData($list_data);
+        if (count($list_data) > 0) $this->spreedSheet->sendData($list_data, $this->TARGET_WA);
     }
 
     function crawlDetail($item)

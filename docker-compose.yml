@@ -9,7 +9,7 @@ services:
       - '5672:5672'
       - '15672:15672'
     env_file:
-      - .env
+      - config/.env
     networks:
       - crawlolx
    #command: "/usr/local/bin/rabbitmqadmin declare queue name=$RABBITMQ_DEFAULT_QUEUE durable=true -u $RABBITMQ_DEFAULT_USER -p $RABBITMQ_DEFAULT_PASS"
@@ -21,7 +21,7 @@ services:
     volumes:
       - './.data/WhatsAppSession:/tmp/WhatsAppSession'
     env_file:
-      - .env
+      - config/.env
     networks:
       - crawlolx
     tty: true
@@ -35,9 +35,11 @@ services:
       dockerfile: crawl-olx/Dockerfile
     networks:
       - crawlolx
+    volumes:
+      - './config:/code/config'
     tty: true
     env_file:
-      - .env
+      - config/.env
     command: crond -l 2 -f
     depends_on:
       - rabbitmq

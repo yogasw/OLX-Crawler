@@ -123,16 +123,16 @@ class SpreedSheet
                 $message = "*{$item["title"]}*\n\n"
                     . "*Ad description*\n"
                     . "*Created At :*\n{$item["created_at"]}\n\n"
-                    . "*Location :*\n_{$item["location"]}_\n\n"
+                    . "*Location :*\n _{$item["location"]}_\n\n"
                     . "*Image :*\n{$item["image"]}\n\n"
                     . "*Price :* {$item["price"]}\n\n"
                     . "*Parameters :* \n{$item["parameters"]}\n\n"
                     . "*Description :* \n{$item["description"]}\n\n"
-                    . "*Url :* \n_{$item["url"]}_\n\n"
+                    . "*Url :*\n _{$item["url"]}_\n\n"
                     . "*User description :* \n"
                     . "*Name :* {$item["user"]}\n\n"
-                    . "*Profile :*\n_{$item["profile"]}_\n\n"
-                    . "*Location :*\n_{$item["locationUser"]}_\n\n"
+                    . "*Profile :*\n _{$item["profile"]}_\n\n"
+                    . "*Location :*\n _{$item["locationUser"]}_\n\n"
                     . "*Badges :* {$item["badges"]}\n\n";
                 $message = [
                     "Target" => getenv("TARGET_WA_MESSAGE"),
